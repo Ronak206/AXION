@@ -9,7 +9,7 @@ Connection Database::getConnection() {
     const std::string PORT = "5432";
 
     try {
-        static Connection conn =
+        static Connection connection =
             std::make_shared<pqxx::connection>(
                 std::string("dbname=") + DATABASE_NAME + " "
                 + std::string("user=") + USERNAME + " "
@@ -18,8 +18,8 @@ Connection Database::getConnection() {
                 + std::string("port=") + PORT
             );
 
-        if (conn->is_open()) {
-            return conn;
+        if (connection->is_open()) {
+            return connection;
         } else {
             throw std::runtime_error("Failed to open the database connection.");
         }
