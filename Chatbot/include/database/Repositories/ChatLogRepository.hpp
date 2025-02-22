@@ -8,8 +8,10 @@ class ChatLogRepository : public Repository<ChatLog> {
   public:
     ChatLogRepository(Connection connection)
         : Repository<ChatLog>(connection) {}
-    void add(const ChatLog& log) override;
-    ChatLog find(int id) override;
+    int add(const ChatLog& log) override;
+    std::optional<ChatLog> find(int id) override;
+    std::optional<ChatLog> findByQuestion(const std::string &);
+    std::optional<ChatLog> findByAnswer(const std::string &);
     void update(const ChatLog& log) override;
     void remove(int id) override;
 };
