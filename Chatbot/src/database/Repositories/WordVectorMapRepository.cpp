@@ -2,7 +2,13 @@
 #include "Queries/WordToVectorMapQueries.hpp"
 #include <iostream>
 
-int WordVectorMapRepository::add(const WordVectorMap& wordVector) {
+std::optional<int> WordVectorMapRepository::add(const WordVectorMap&
+        wordVector) {
+    if (!connection) {
+        std::cerr << "Add Error: Database connection is null!" << std::endl;
+        return std::nullopt;
+    }
+
     try {
         pqxx::work txn(*connection);
         pqxx::result res = txn.exec_params(WordVectorMapQueries::INSERT,
@@ -15,7 +21,7 @@ int WordVectorMapRepository::add(const WordVectorMap& wordVector) {
     } catch (const std::exception &e) {
         std::cerr << "Insert Error: " << e.what() << std::endl;
     }
-    return -1;  // Return -1 on failure
+    return std::nullopt;  // Return -1 on failure
 }
 
 std::optional<WordVectorMap> WordVectorMapRepository::find(int id) {

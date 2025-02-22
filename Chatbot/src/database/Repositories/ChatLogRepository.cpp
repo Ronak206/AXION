@@ -1,9 +1,13 @@
 #include "Repositories/ChatLogRepository.hpp"
 #include "Queries/ChatLogQueries.hpp"
 #include <iostream>
-#include <optional>
 
-int ChatLogRepository::add(const ChatLog& log) {
+std::optional<int> ChatLogRepository::add(const ChatLog& log) {
+    if (!connection) {
+        std::cerr << "Add Error: Database connection is null!" << std::endl;
+        return std::nullopt;
+    }
+
     try {
         pqxx::work txn(*connection);
         pqxx::result res = txn.exec_params(ChatLogQueries::INSERT, log.question,
@@ -16,9 +20,8 @@ int ChatLogRepository::add(const ChatLog& log) {
     } catch (const std::exception &e) {
         std::cerr << "Insert Error: " << e.what() << std::endl;
     }
-    return -1;  // Return -1 on failure
+    return std::nullopt;  // Return -1 on failure
 }
-
 
 std::optional<ChatLog> ChatLogRepository::find(int id) {
     if (!connection) {

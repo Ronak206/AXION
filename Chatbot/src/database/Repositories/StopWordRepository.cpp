@@ -1,9 +1,13 @@
 #include "Repositories/StopWordRepository.hpp"
 #include "Queries/StopWordQueries.hpp"
 #include <iostream>
-#include <optional>
 
-int StopWordRepository::add(const StopWord& stopWord) {
+std::optional<int> StopWordRepository::add(const StopWord& stopWord) {
+    if (!connection) {
+        std::cerr << "Add Error: Database connection is null!" << std::endl;
+        return std::nullopt;
+    }
+
     try {
         pqxx::work txn(*connection);
         pqxx::result res = txn.exec_params(StopWordQueries::INSERT, stopWord.stopWord);
@@ -15,9 +19,8 @@ int StopWordRepository::add(const StopWord& stopWord) {
     } catch (const std::exception &e) {
         std::cerr << "Insert Error: " << e.what() << std::endl;
     }
-    return -1;  // Return -1 on failure
+    return std::nullopt;  // Return -1 on failure
 }
-
 
 std::optional<StopWord> StopWordRepository::find(int id) {
     if (!connection) {
