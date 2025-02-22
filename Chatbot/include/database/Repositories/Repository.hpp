@@ -14,7 +14,7 @@ class Repository {
         this->connection = connection;
     }
 
-    virtual int add(const T& entity) = 0;
+    virtual std::optional<int> add(const T& entity) = 0;
     virtual std::optional<T> find(int id) = 0;
     virtual void update(const T& entity) = 0;
     virtual void remove(int id) = 0;

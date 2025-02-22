@@ -8,7 +8,7 @@ class StopWordRepository : public Repository<StopWord> {
   public:
     StopWordRepository(Connection connection)
         : Repository<StopWord>(connection) {}
-    int add(const StopWord &) override;
+    std::optional<int> add(const StopWord &) override;
     std::optional<StopWord> find(int id) override;
     bool isStopword(const std::string &);
     void update(const StopWord &) override;
