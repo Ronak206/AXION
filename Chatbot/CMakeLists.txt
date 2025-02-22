@@ -12,10 +12,10 @@ find_package(PostgreSQL REQUIRED)
 find_package(GTest REQUIRED)
 
 # Define the main executable
-add_executable(chatbot src/main.cpp src/chatbot.cpp src/nlp.cpp src/utils.cpp src/database/Database.cpp)
+# add_executable(chatbot src/main.cpp src/database/Database.cpp)
 
 # Link the PostgreSQL library
-target_link_libraries(chatbot pqxx pq)
+# target_link_libraries(chatbot pqxx pq)
 
 # Add the test executables
 add_executable(test_database tests/test_database_connection.cpp src/database/Database.cpp)
@@ -26,9 +26,12 @@ add_executable(run_tests
     tests/test_chatlog.cpp 
     tests/test_stopword.cpp 
     tests/test_wordvector.cpp 
+    tests/test_wordvector.cpp 
+    tests/test_lemma.cpp 
     src/database/Repositories/ChatLogRepository.cpp 
     src/database/Repositories/StopWordRepository.cpp 
     src/database/Repositories/WordVectorMapRepository.cpp
+    src/database/Repositories/LemmaRepository.cpp
 )
 
 # Link against GTest, pthread, and pqxx
