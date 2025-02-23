@@ -4,7 +4,7 @@ project(Chatbot)
 set(CMAKE_CXX_STANDARD 17)
 
 # Add include directories
-include_directories(include include/database)
+include_directories(include include/database include/user_input include/core)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 # Find PostgreSQL (libpqxx)
@@ -18,16 +18,16 @@ find_package(GTest REQUIRED)
 # target_link_libraries(chatbot pqxx pq)
 
 # Add the test executables
-add_executable(test_database tests/test_database_connection.cpp src/database/Database.cpp)
+add_executable(test_database tests/database/test_database_connection.cpp src/database/Database.cpp)
 target_link_libraries(test_database pqxx pq)
 
 add_executable(run_tests 
     tests/test_main.cpp 
-    tests/test_chatlog.cpp 
-    tests/test_stopword.cpp 
-    tests/test_wordvector.cpp 
-    tests/test_wordvector.cpp 
-    tests/test_lemma.cpp 
+    tests/database/test_chatlog.cpp 
+    tests/database/test_stopword.cpp 
+    tests/database/test_wordvector.cpp 
+    tests/database/test_wordvector.cpp 
+    tests/database/test_lemma.cpp 
     src/database/Repositories/ChatLogRepository.cpp 
     src/database/Repositories/StopWordRepository.cpp 
     src/database/Repositories/WordVectorMapRepository.cpp
